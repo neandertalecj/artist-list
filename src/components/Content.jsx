@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import {Conf} from '../Conf/path'
 
-// http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=cher&api_key=99f54fc50c9b7f9b745753341fc6d09d&format=json
-// API key	99f54fc50c9b7f9b745753341fc6d09d
+const { BASE_PATH, API_KEY, ARTIST_NAME, METHOD, ARTIST, YOUR_API_KEY, FORMAT } = Conf
 
 class Content extends Component {
   state = {
@@ -9,7 +9,7 @@ class Content extends Component {
   }
 
   componentDidMount(){
-    fetch(`http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=cher&api_key=99f54fc50c9b7f9b745753341fc6d09d&format=json`)
+    fetch(`${BASE_PATH}/?${METHOD}&${ARTIST}${ARTIST_NAME}&${API_KEY}${YOUR_API_KEY}&${FORMAT}`)
     .then(res => res.json())
     .then(result => this.setResult(result))
     .catch(err => err)

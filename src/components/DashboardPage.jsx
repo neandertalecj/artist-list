@@ -1,46 +1,71 @@
 import React, { Component } from 'react'
-import {Conf} from '../Conf/path'
-import { Link } from 'react-router-dom'
+import AdvContent from './Content'
+import Pagination from './Pagination/index'
 
 import { connect } from 'react-redux'
 import { getItems } from '../actions/itemActions'
 
-// const { BASE_PATH, API_KEY, METHOD, YOUR_API_KEY, FORMAT, COUNTRY, COUNTRY_NAME } = Conf
-
 class DashboardPage extends Component {
-
-  // /2.0/?method=geo.gettopartists&country=spain&api_key=YOUR_API_KEY&format=json
+  state = {
+    page: 1
+  }
 
   componentDidMount(){
-    this.props.getItems()
+    const { page } = this.state
+    this.props.getItems(page)
+    console.log(this.props)
+  }
+
+  handlePageChange = ({ target }) => {
+    const btnType = target.getAttribute('data-name');
+    let { page } = this.state;
+
+    if(!isNaN(btnType)) {
+      this.updatePage(+btnType);
+    } else {
+      switch (btnType) {
+        case 'next':
+          this.updatePage(page + 1);
+          break;
+        case 'prev':
+          this.updatePage(page - 1);
+          break;
+        default: null; /*eslint-disable-line*/
+      }
+    }
+  }
+
+  updatePage = (number) => {
+      this.setState({
+              page: number
+          },
+          this.props.getItems(number)
+      )
   }
 
   render() {
-    const { item: { items: { artist = [] }}} = this.props
-    console.log(artist)
+    const { page } = this.state
+    // const { perPage } = this.props.items.@attr.perPage
+    const perPage = 50
     return (
       <div>
-        <h1>Artist List</h1>
-        {artist.map(({ name, listeners }) => 
-          <div key={listeners}>
-            {name}
-            <Link to="/artist_page">Read more...</Link>
-            
-          </div>
-        )}
+        <Pagination
+          onClick={this.handlePageChange}
+          page={page}
+          lastPage={perPage}
+        />
+        <AdvContent data={this.props} />
+        
       </div>
       
     )
   }
 }
  
-// export default DashboardPage
-
 const mapStateToProps = (state) => ({
   item: state.item
 })
 
-// export default ShoppingList
 export default connect(
   mapStateToProps,
   { getItems }

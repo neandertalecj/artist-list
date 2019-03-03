@@ -6,6 +6,11 @@ import { deleteItem } from '../actions/itemActions'
 
 class FavoritesPages extends Component {
 
+  removeFromFavorit = (id) => {
+    this.props.deleteItem(id)
+    console.log('remove', id)
+  }
+
   render() {
     console.log(this.props.item.favorit)
     const { item: { favorit }} = this.props
@@ -17,7 +22,7 @@ class FavoritesPages extends Component {
             {name}
             <button 
               style={{marginLeft: '100px', background: 'red'}}
-              // onClick={(e) => this.addToFavorit(listeners, e)}
+              onClick={(e) => this.removeFromFavorit(listeners, e)}
             >-</button>
             <Link to={{ pathname: '/artist_page', query: { name }}} >
               <br/>

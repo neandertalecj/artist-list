@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AdvContent from './Content'
+import Content from './Content'
 import Pagination from './Pagination/index'
 
 import { connect } from 'react-redux'
@@ -35,7 +35,7 @@ class DashboardPage extends Component {
     }
   }
 
-  updatePage = (number) => {
+  updatePage = number => {
       this.setState({
               page: number
           },
@@ -54,7 +54,9 @@ class DashboardPage extends Component {
           page={page}
           lastPage={perPage}
         />
-        <AdvContent data={this.props} />
+        <Content 
+          data={this.props}
+        />
         
       </div>
       

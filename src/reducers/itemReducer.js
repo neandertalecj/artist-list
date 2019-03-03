@@ -2,6 +2,7 @@ import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from '../actions/type
 
 const initialState = {
     items: {},
+    favorit: [],
     loading: false
 }
 
@@ -20,9 +21,12 @@ export default function(state = initialState, action) {
                 items: state.items.filter(item => item._id !== action.payload)
             }
         case ADD_ITEM:
-            return {
+        return {
                 ...state,
-                items: [action.payload, ...state.items]
+                favorit: [
+                    state.items.artist.find(value => action.payload === value.listeners), 
+                    ...state.favorit
+                ]
             }
         case ITEMS_LOADING:
             return {
